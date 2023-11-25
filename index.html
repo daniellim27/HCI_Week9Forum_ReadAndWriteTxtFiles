@@ -1,0 +1,69 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Forum task Reading and Writing Txt</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <style>
+    body {
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+input[type="file"], textarea, button {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  cursor: pointer;
+}
+
+#fileInput, #fileContent {
+  width: 100%;
+}
+  </style>
+  <body>
+    <input type="file" id="fileInput">
+    <textarea id="fileContent"></textarea>
+    <button id="writeButton">Write to File</button>
+    <button id="readButton">Read File</button>
+
+    <script>
+      const fileInput = document.getElementById('fileInput');
+      const fileContent = document.getElementById('fileContent');
+      const writeButton = document.getElementById('writeButton');
+      const readButton = document.getElementById('readButton');
+
+      const writeToFile = () => {
+        const file = fileInput.files[0];
+        if (file) {
+          const blob = new Blob([fileContent.value], { type: 'text/plain' });
+          saveAs(blob, file.name);
+        } else {
+          alert('Please select a file');
+        }
+      };
+
+      const readFromFile = () => {
+        const file = fileInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            fileContent.value = reader.result;
+          };
+          reader.readAsText(file);
+        } else {
+          alert('Please select a file');
+        }
+      };
+
+      writeButton.addEventListener('click', writeToFile);
+      readButton.addEventListener('click', readFromFile);
+
+      window.onload = readFromFile;
+    </script>
+  </body>
+  </html>
